@@ -96,7 +96,7 @@ final class Filter
 
         foreach ($this->e as $e) {
             foreach ($event->tags as $tag) {
-                if ('#e' === $tag[0] && $tag[1] === $e) {
+                if ('e' === $tag[0] && $tag[1] === $e) {
                     return true;
                 }
             }
@@ -113,7 +113,7 @@ final class Filter
 
         foreach ($this->p as $p) {
             foreach ($event->tags as $tag) {
-                if ('#p' === $tag[0] && $tag[1] === $p) {
+                if ('p' === $tag[0] && $tag[1] === $p) {
                     return true;
                 }
             }

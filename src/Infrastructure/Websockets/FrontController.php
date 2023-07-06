@@ -62,7 +62,8 @@ final class FrontController implements WebsocketClientHandler
                     $data[1]['created_at'],
                     $data[1]['kind'],
                     $data[1]['tags'],
-                    $data[1]['content']
+                    $data[1]['content'],
+                    $data[1]['sig']
                 ));
                 continue;
             }
@@ -74,8 +75,8 @@ final class FrontController implements WebsocketClientHandler
                         $data[$i]['ids'] ?? null,
                         $data[$i]['authors'] ?? null,
                         $data[$i]['kinds'] ?? null,
-                        $data[$i]['#e'] ?? null,
-                        $data[$i]['#p'] ?? null,
+                        $data[$i]['e'] ?? null,
+                        $data[$i]['p'] ?? null,
                         $data[$i]['since'] ?? null,
                         $data[$i]['until'] ?? null,
                         $data[$i]['limit'] ?? null,

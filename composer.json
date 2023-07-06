@@ -17,6 +17,8 @@
     "amphp/log": "^2.0",
     "amphp/websocket-server": "^3.0",
     "monolog/monolog": "^3.4",
+    "public-square/phpecc": "^0.1.2",
+    "simplito/elliptic-php": "^1.0",
     "uma/dic": "^3.0"
   },
   "require-dev": {
