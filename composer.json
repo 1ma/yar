@@ -1,0 +1,29 @@
+{
+  "name": "uma/yar",
+  "description": "Yet Another Relay: a Nostr relay implemented in async PHP",
+  "minimum-stability": "beta",
+  "autoload": {
+    "psr-4": {
+      "YAR\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "YAR\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "ext-pcntl": "*",
+    "amphp/log": "^2.0",
+    "amphp/websocket-server": "^3.0",
+    "monolog/monolog": "^3.4",
+    "uma/dic": "^3.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.21",
+    "phpunit/phpunit": "^10.2"
+  },
+  "config": {
+    "sort-packages": true
+  }
+}
