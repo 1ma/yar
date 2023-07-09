@@ -2,6 +2,8 @@
 
 ## Installation
 
+YAR needs the [secp256k1_nostr](https://github.com/1ma/secp256k1-nostr-php) PHP extension.
+
 ```shell
 $ composer install
 $ php main.php
@@ -12,7 +14,6 @@ Currently, the server listens on `ws://127.0.0.1:1337` as plaintext.
 ## Limitations
 
 * No persistent event storage.
-* Signature verification is very slow. https://github.com/Bit-Wasp/secp256k1-php needs some love to make it work in PHP 8.1+.
 
 ## Implemented NIPs
 

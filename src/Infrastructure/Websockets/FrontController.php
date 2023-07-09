@@ -93,7 +93,7 @@ final class FrontController implements WebsocketClientHandler
             }
 
             // Anything else is a NOOP
-            $this->logger->info('Client '.$client->getId().' sent unknown command');
+            $this->logger->info('Client '.$client->getId().' sent unknown command', ['command' => $text]);
         }
     }
 }

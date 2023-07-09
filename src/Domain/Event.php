@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace YAR\Domain;
 
-use Mdanter\Ecc\Crypto\Signature\SchnorrSignature;
-
 final class Event implements \JsonSerializable
 {
     public readonly string $id;
@@ -40,7 +38,7 @@ final class Event implements \JsonSerializable
         $keyPair = new KeyPair($privateKey);
 
         $id = self::computeId($keyPair->publicKey, $createdAt, $kind, $tags, $content);
-        $signature = (new SchnorrSignature())->sign($keyPair->privateKey, $id)['signature'];
+        $signature = secp256k1_nostr_sign($keyPair->privateKey, $id);
 
         return new self($id, $keyPair->publicKey, $createdAt, $kind, $tags, $content, $signature);
     }
@@ -65,6 +63,6 @@ final class Event implements \JsonSerializable
 
     private static function verifySignature(string $publicKey, string $signature, string $message): bool
     {
-        return (new SchnorrSignature())->verify($publicKey, $signature, $message);
+        return secp256k1_nostr_verify($publicKey, $message, $signature);
     }
 }
