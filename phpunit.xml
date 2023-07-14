@@ -10,7 +10,7 @@
          failOnWarning="true"
 >
     <testsuites>
-        <testsuite name="default">
+        <testsuite name="YAR Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
@@ -23,7 +23,8 @@
 
     <coverage>
         <report>
-            <html outputDirectory="./build"/>
+            <clover outputFile="build/coverage.xml"/>
+            <html outputDirectory="./build/coverage"/>
             <text outputFile="php://stdout" showOnlySummary="true"/>
         </report>
     </coverage>

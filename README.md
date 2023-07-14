@@ -1,5 +1,7 @@
 # YAR: Yet Another Relay
 
+[![CI](https://github.com/1ma/yar/actions/workflows/ci.yml/badge.svg)](https://github.com/1ma/yar/actions/workflows/ci.yml)
+
 ## Installation
 
 YAR needs the [secp256k1_nostr](https://github.com/1ma/secp256k1-nostr-php) PHP extension.

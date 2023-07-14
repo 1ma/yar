@@ -22,10 +22,23 @@
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.21",
+    "phpmetrics/phpmetrics": "^2.8",
     "phpunit/phpunit": "^10.2",
     "uma/secp256k1-nostr": "^0.1"
   },
   "config": {
     "sort-packages": true
+  },
+  "scripts": {
+    "cs-fix": "php vendor/bin/php-cs-fixer fix -v",
+    "cs-fix-ci": "php vendor/bin/php-cs-fixer fix --dry-run -v",
+    "metrics": "php vendor/bin/phpmetrics --report-html=build/metrics --junit=build/coverage.xml src",
+    "test": "php vendor/bin/phpunit"
+  },
+  "scripts-descriptions": {
+    "cs-fix": "Autoformat code",
+    "cs-fix-ci": "Check for formatting issues",
+    "metrics": "Run phpmetrics",
+    "test": "Run test suite"
   }
 }
