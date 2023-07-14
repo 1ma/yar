@@ -10,11 +10,13 @@ final class Event implements \JsonSerializable
     public readonly string $publicKey;
     public readonly int $createdAt;
     public readonly int $kind;
+
+    /** @var EventTag[] */
     public readonly array $tags;
     public readonly string $content;
     public readonly string $signature;
 
-    public function __construct(string $id, string $publicKey, int $createdAt, int $kind, array $tags, string $content, string $signature)
+    public function __construct(string $id, string $publicKey, int $createdAt, int $kind, string $content, string $signature, EventTag ...$tags)
     {
         if ($id !== self::computeId($publicKey, $createdAt, $kind, $tags, $content)) {
             throw new \InvalidArgumentException('Invalid Event id');
@@ -40,7 +42,9 @@ final class Event implements \JsonSerializable
         $id = self::computeId($keyPair->publicKey, $createdAt, $kind, $tags, $content);
         $signature = secp256k1_nostr_sign($keyPair->privateKey, $id);
 
-        return new self($id, $keyPair->publicKey, $createdAt, $kind, $tags, $content, $signature);
+        $tags = array_map(fn (array $tag): EventTag => new EventTag($tag[0], ...\array_slice($tag, 1)), $tags);
+
+        return new self($id, $keyPair->publicKey, $createdAt, $kind, $content, $signature, ...$tags);
     }
 
     public function jsonSerialize(): mixed

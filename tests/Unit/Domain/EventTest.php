@@ -6,6 +6,7 @@ namespace YAR\Tests\Unit\Domain;
 
 use PHPUnit\Framework\TestCase;
 use YAR\Domain\Event;
+use YAR\Domain\EventTag;
 
 final class EventTest extends TestCase
 {
@@ -23,12 +24,10 @@ final class EventTest extends TestCase
             '7bf7db83f73228f5df6ba34849f2af9fd54bf565b5ad698ac708249b310079a0',
             1676670758,
             1,
-            [
-                ['e', '0514eea667ff1c5ebe66c1790a0c36e2d9507c27c22e7e8de0798ab0712909d8'],
-                ['p', '74ffc51cc30150cf79b6cb316d3a15cf332ab29a38fec9eb484ab1551d6d1856'],
-            ],
             'Henlo fren.',
-            'a7ef3fc9113d15ecc0874ad4555f5bf0446a2d0fdd1ccc07f62abc69934072d0a98917ec0807a8ff88a189d3184fa4f0c3820c868976975b6e87b8f11816b482'
+            'a7ef3fc9113d15ecc0874ad4555f5bf0446a2d0fdd1ccc07f62abc69934072d0a98917ec0807a8ff88a189d3184fa4f0c3820c868976975b6e87b8f11816b482',
+            new EventTag('e', '0514eea667ff1c5ebe66c1790a0c36e2d9507c27c22e7e8de0798ab0712909d8'),
+            new EventTag('p', '74ffc51cc30150cf79b6cb316d3a15cf332ab29a38fec9eb484ab1551d6d1856')
         );
 
         self::assertInstanceOf(Event::class, $event);
