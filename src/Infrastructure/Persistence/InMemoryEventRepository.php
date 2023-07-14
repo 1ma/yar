@@ -22,19 +22,18 @@ final class InMemoryEventRepository implements EventRepository
 
     public function add(Event $event): void
     {
-        $this->events[$event->id] = $event;
+        array_unshift($this->events, $event);
     }
 
     public function query(Subscription $subscription): array
     {
         $matches = [];
         foreach ($subscription->filters as $filter) {
-            $matches = [...$matches, ...array_filter($this->events, fn (Event $event): bool => $filter->matches($event))];
+            $filterMatches = array_filter($this->events, fn (Event $event): bool => $filter->matches($event));
+            $matches = [...$matches, ...\array_slice($filterMatches, 0, $filter->limit)];
         }
 
-        // TODO NIP-01: implement limit
-
-        return array_values($matches);
+        return $matches;
     }
 
     public function count(): int

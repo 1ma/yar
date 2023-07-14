@@ -10,7 +10,7 @@ use YAR\Domain\SubscriptionRepository;
 
 final class InMemorySubscriptionRepository implements SubscriptionRepository
 {
-    /** @var Subscription[] */
+    /** @var Subscription[][] */
     private array $subscriptions;
 
     public function __construct()
@@ -40,8 +40,8 @@ final class InMemorySubscriptionRepository implements SubscriptionRepository
     public function matches(Event $event): array
     {
         $matches = [];
-        foreach ($this->subscriptions as $subscriptions) {
-            foreach ($subscriptions as $subscription) {
+        foreach ($this->subscriptions as $clientSubscriptions) {
+            foreach ($clientSubscriptions as $subscription) {
                 foreach ($subscription->filters as $filter) {
                     if ($filter->matches($event)) {
                         $matches[] = $subscription;
