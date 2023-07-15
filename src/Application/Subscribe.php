@@ -6,6 +6,7 @@ namespace YAR\Application;
 
 use Amp\Websocket\Server\WebsocketGateway;
 use YAR\Domain\EventRepository;
+use YAR\Domain\JSON;
 use YAR\Domain\Subscription;
 use YAR\Domain\SubscriptionRepository;
 
@@ -25,10 +26,10 @@ final class Subscribe
     public function execute(Subscription $subscription): void
     {
         foreach ($this->eventRepository->query($subscription) as $event) {
-            $this->gateway->send(json_encode(['EVENT', $subscription->id, $event]), $subscription->clientId);
+            $this->gateway->send(JSON::encode(['EVENT', $subscription->id, $event]), $subscription->clientId);
         }
 
-        $this->gateway->send(json_encode(['EOSE', $subscription->id]), $subscription->clientId);
+        $this->gateway->send(JSON::encode(['EOSE', $subscription->id]), $subscription->clientId);
 
         $this->subscriptionRepository->register($subscription);
     }

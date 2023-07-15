@@ -8,6 +8,7 @@ use Amp\Websocket\Server\WebsocketGateway;
 use Amp\Websocket\WebsocketClient;
 use YAR\Domain\Event;
 use YAR\Domain\EventRepository;
+use YAR\Domain\JSON;
 use YAR\Domain\SubscriptionRepository;
 
 final class PublishEvent
@@ -27,10 +28,10 @@ final class PublishEvent
     {
         $this->eventRepository->add($event);
 
-        $publisher->send(json_encode(['OK', $event->id, true, ''], \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE));
+        $publisher->send(JSON::encode(['OK', $event->id, true, '']));
 
         foreach ($this->subscriptionRepository->matches($event) as $subscription) {
-            $this->gateway->send(json_encode(['EVENT', $subscription->id, $event], \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE), $subscription->clientId);
+            $this->gateway->send(JSON::encode(['EVENT', $subscription->id, $event]), $subscription->clientId);
         }
     }
 }

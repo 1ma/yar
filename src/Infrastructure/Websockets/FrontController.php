@@ -17,6 +17,7 @@ use YAR\Application\Unsubscribe;
 use YAR\Domain\Event;
 use YAR\Domain\EventTag;
 use YAR\Domain\Filter;
+use YAR\Domain\JSON;
 use YAR\Domain\Subscription;
 use YAR\Domain\SubscriptionRepository;
 
@@ -49,10 +50,16 @@ final class FrontController implements WebsocketClientHandler
 
         while ($message = $client->receive()) {
             $text = $message->buffer();
-            $data = json_decode($text, true);
 
-            if (\JSON_ERROR_NONE !== json_last_error() || !\is_array($data)) {
-                $this->logger->info('Client '.$client->getId().' sent invalid json');
+            try {
+                $data = JSON::decode($text);
+            } catch (\JsonException) {
+                $this->logger->info('Client '.$client->getId().' did not send valid json');
+                continue;
+            }
+
+            if (!\is_array($data)) {
+                $this->logger->info('Client '.$client->getId().' did not send json array');
                 continue;
             }
 
