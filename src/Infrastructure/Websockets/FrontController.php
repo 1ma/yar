@@ -72,7 +72,7 @@ final class FrontController implements WebsocketClientHandler
                     $data[1]['content'],
                     $data[1]['sig'],
                     ...$tags
-                ));
+                ), $client);
                 continue;
             }
 

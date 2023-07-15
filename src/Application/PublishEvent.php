@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace YAR\Application;
 
 use Amp\Websocket\Server\WebsocketGateway;
+use Amp\Websocket\WebsocketClient;
 use YAR\Domain\Event;
 use YAR\Domain\EventRepository;
 use YAR\Domain\SubscriptionRepository;
@@ -22,9 +23,11 @@ final class PublishEvent
         $this->gateway = $gateway;
     }
 
-    public function execute(Event $event): void
+    public function execute(Event $event, WebsocketClient $publisher): void
     {
         $this->eventRepository->add($event);
+
+        $publisher->send(json_encode(['OK', $event->id, true, '']));
 
         foreach ($this->subscriptionRepository->matches($event) as $subscription) {
             $this->gateway->send(json_encode(['EVENT', $subscription->id, $event]), $subscription->clientId);

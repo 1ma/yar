@@ -21,6 +21,7 @@
     "uma/dic": "^3.0"
   },
   "require-dev": {
+    "amphp/websocket-client": "^2.0@beta",
     "friendsofphp/php-cs-fixer": "^3.21",
     "phpmetrics/phpmetrics": "^2.8",
     "phpunit/phpunit": "^10.2",
