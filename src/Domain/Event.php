@@ -37,14 +37,12 @@ final class Event implements \JsonSerializable
 
     public static function create(string $privateKey, int $createdAt, int $kind, array $tags, string $content): self
     {
-        $keyPair = new KeyPair($privateKey);
-
-        $id = self::computeId($keyPair->publicKey, $createdAt, $kind, $tags, $content);
-        $signature = secp256k1_nostr_sign($keyPair->privateKey, $id);
-
+        $publicKey = secp256k1_nostr_derive_pubkey($privateKey);
+        $id = self::computeId($publicKey, $createdAt, $kind, $tags, $content);
+        $signature = secp256k1_nostr_sign($privateKey, $id);
         $tags = array_map(fn (array $tag): EventTag => new EventTag($tag[0], ...\array_slice($tag, 1)), $tags);
 
-        return new self($id, $keyPair->publicKey, $createdAt, $kind, $content, $signature, ...$tags);
+        return new self($id, $publicKey, $createdAt, $kind, $content, $signature, ...$tags);
     }
 
     public function jsonSerialize(): mixed
