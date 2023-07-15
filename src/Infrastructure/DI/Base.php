@@ -7,6 +7,7 @@ namespace YAR\Infrastructure\DI;
 use Amp\Log\ConsoleFormatter;
 use Amp\Log\StreamHandler;
 use Amp\Websocket\Server\WebsocketGateway;
+use Monolog\Handler\Handler;
 use Monolog\Logger;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -26,12 +27,16 @@ final class Base implements ServiceProvider
 {
     public function provide(Container $c): void
     {
-        $c->set(LoggerInterface::class, static function (): LoggerInterface {
+        $c->set(Handler::class, static function (): Handler {
             $handler = new StreamHandler(getStdout());
             $handler->setFormatter(new ConsoleFormatter());
 
+            return $handler;
+        });
+
+        $c->set(LoggerInterface::class, static function (ContainerInterface $c): LoggerInterface {
             $logger = new Logger('yar');
-            $logger->pushHandler($handler);
+            $logger->pushHandler($c->get(Handler::class));
 
             return $logger;
         });

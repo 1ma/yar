@@ -4,14 +4,19 @@ declare(strict_types=1);
 
 namespace YAR\Tests\Functional;
 
+use Amp\Websocket\Client\WebsocketHandshake;
 use YAR\Domain\EventRepository;
 use YAR\Infrastructure\Persistence\InMemoryEventRepository;
 
-final class PublishEventTest extends FunctionalTestCase
+use function Amp\Websocket\Client\connect;
+
+final class PublisherTest extends FunctionalTestCase
 {
     public function testPublishingAnEvent(): void
     {
-        $this->client->send(<<<JSON
+        $client = connect(new WebsocketHandshake('ws://127.0.0.1:1337'));
+
+        $client->send(<<<JSON
 ["EVENT", {
   "id": "62fa167369a603b1181a49ecf2e20e7189833417c3fb49666c5644901da27bcc",
   "pubkey": "84fdf029f065438702b011c2002b489fd00aaea69b18efeae8261c44826a8886",
@@ -26,12 +31,14 @@ JSON
 
         self::assertSame(
             '["OK","62fa167369a603b1181a49ecf2e20e7189833417c3fb49666c5644901da27bcc",true,""]',
-            $this->client->receive()->buffer()
+            $client->receive()->buffer()
         );
 
         /** @var InMemoryEventRepository $eventRepository */
         $eventRepository = $this->container->get(EventRepository::class);
 
         self::assertSame(1, $eventRepository->count());
+
+        $client->close();
     }
 }
