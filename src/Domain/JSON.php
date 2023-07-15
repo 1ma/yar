@@ -22,6 +22,6 @@ final class JSON
      */
     public static function decode(string $text): mixed
     {
-        return json_decode($text, true, flags: \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_THROW_ON_ERROR);
+        return json_decode($text, flags: \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE | \JSON_THROW_ON_ERROR);
     }
 }

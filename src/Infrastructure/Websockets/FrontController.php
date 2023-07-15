@@ -65,19 +65,19 @@ final class FrontController implements WebsocketClientHandler
 
             if (2 === \count($data) && 'EVENT' === $data[0]) {
                 $tags = [];
-                foreach ($data[1]['tags'] as $tag) {
+                foreach ($data[1]->tags as $tag) {
                     $name = $tag[0];
                     $values = \array_slice($tag, 1);
                     $tags[] = new EventTag($name, ...$values);
                 }
 
                 $this->publishEvent->execute(new Event(
-                    $data[1]['id'],
-                    $data[1]['pubkey'],
-                    $data[1]['created_at'],
-                    $data[1]['kind'],
-                    $data[1]['content'],
-                    $data[1]['sig'],
+                    $data[1]->id,
+                    $data[1]->pubkey,
+                    $data[1]->created_at,
+                    $data[1]->kind,
+                    $data[1]->content,
+                    $data[1]->sig,
                     ...$tags
                 ), $client);
                 continue;
@@ -87,14 +87,14 @@ final class FrontController implements WebsocketClientHandler
                 $filters = [];
                 for ($i = 2; $i < \count($data); ++$i) {
                     $filters[] = new Filter(
-                        $data[$i]['ids'] ?? null,
-                        $data[$i]['authors'] ?? null,
-                        $data[$i]['kinds'] ?? null,
-                        $data[$i]['e'] ?? null,
-                        $data[$i]['p'] ?? null,
-                        $data[$i]['since'] ?? null,
-                        $data[$i]['until'] ?? null,
-                        $data[$i]['limit'] ?? null,
+                        $data[$i]->ids ?? null,
+                        $data[$i]->authors ?? null,
+                        $data[$i]->kinds ?? null,
+                        $data[$i]->e ?? null,
+                        $data[$i]->p ?? null,
+                        $data[$i]->since ?? null,
+                        $data[$i]->until ?? null,
+                        $data[$i]->limit ?? null,
                     );
                 }
 
