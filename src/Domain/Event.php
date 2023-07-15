@@ -22,7 +22,7 @@ final class Event implements \JsonSerializable
             throw new \InvalidArgumentException('Invalid Event id');
         }
 
-        if (!self::verifySignature($publicKey, $signature, $id)) {
+        if (!secp256k1_nostr_verify($publicKey, $id, $signature)) {
             throw new \InvalidArgumentException('Invalid Event signature');
         }
 
@@ -62,11 +62,6 @@ final class Event implements \JsonSerializable
 
     private static function computeId(string $publicKey, int $createdAt, int $kind, array $tags, string $content): string
     {
-        return hash('sha256', json_encode([0, $publicKey, $createdAt, $kind, $tags, $content]));
-    }
-
-    private static function verifySignature(string $publicKey, string $signature, string $message): bool
-    {
-        return secp256k1_nostr_verify($publicKey, $message, $signature);
+        return hash('sha256', json_encode([0, $publicKey, $createdAt, $kind, $tags, $content], \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE));
     }
 }
