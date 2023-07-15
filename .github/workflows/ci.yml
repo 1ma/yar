@@ -12,6 +12,10 @@ jobs:
       matrix:
         php-version: [ "8.1", "8.2" ]
     steps:
+      - name: Temporary hack to avoid a hang in functional tests
+        run: |
+          rm /etc/php/cli/conf.d/20-event.ini
+          rm /etc/php/cli/conf.d/20-uv.ini
       - uses: actions/checkout@v3
       - run: composer install
       - run: composer cs-fix-ci
