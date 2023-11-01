@@ -12,7 +12,7 @@ use Amp\Http\Server\RequestHandler;
 use Amp\Http\Server\SocketHttpServer;
 use Amp\Socket\InternetAddress;
 use Amp\Socket\ResourceServerSocketFactory;
-use Amp\Websocket\Server\EmptyWebsocketHandshakeHandler;
+use Amp\Websocket\Server\Rfc6455Acceptor;
 use Amp\Websocket\Server\Websocket;
 use Amp\Websocket\Server\WebsocketClientGateway;
 use Amp\Websocket\Server\WebsocketClientHandler;
@@ -60,8 +60,9 @@ final class Websockets implements ServiceProvider
 
         $c->set(RequestHandler::class, static function (ContainerInterface $c): RequestHandler {
             return new Websocket(
+                $c->get(HttpServer::class),
                 $c->get(LoggerInterface::class),
-                new EmptyWebsocketHandshakeHandler(),
+                new Rfc6455Acceptor(),
                 $c->get(WebsocketClientHandler::class)
             );
         });

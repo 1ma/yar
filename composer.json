@@ -16,15 +16,15 @@
     "ext-pcntl": "*",
     "ext-secp256k1_nostr": "*",
     "amphp/log": "^2.0",
-    "amphp/websocket-server": "^3.0",
-    "monolog/monolog": "^3.4",
+    "amphp/websocket-server": "^4.0@beta",
+    "monolog/monolog": "^3.5",
     "uma/dic": "^3.0"
   },
   "require-dev": {
     "amphp/websocket-client": "^2.0@beta",
-    "friendsofphp/php-cs-fixer": "^3.21",
+    "friendsofphp/php-cs-fixer": "^3.37",
     "phpmetrics/phpmetrics": "^2.8",
-    "phpunit/phpunit": "^9.6",
+    "phpunit/phpunit": "^10.4",
     "uma/secp256k1-nostr": "^0.1"
   },
   "config": {

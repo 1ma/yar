@@ -28,10 +28,10 @@ final class PublishEvent
     {
         $this->eventRepository->add($event);
 
-        $publisher->send(JSON::encode(['OK', $event->id, true, '']));
+        $publisher->sendText(JSON::encode(['OK', $event->id, true, '']));
 
         foreach ($this->subscriptionRepository->matches($event) as $subscription) {
-            $this->gateway->send(JSON::encode(['EVENT', $subscription->id, $event]), $subscription->clientId);
+            $this->gateway->sendText(JSON::encode(['EVENT', $subscription->id, $event]), $subscription->clientId);
         }
     }
 }

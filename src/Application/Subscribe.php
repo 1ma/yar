@@ -26,10 +26,10 @@ final class Subscribe
     public function execute(Subscription $subscription): void
     {
         foreach ($this->eventRepository->query($subscription) as $event) {
-            $this->gateway->send(JSON::encode(['EVENT', $subscription->id, $event]), $subscription->clientId);
+            $this->gateway->sendText(JSON::encode(['EVENT', $subscription->id, $event]), $subscription->clientId);
         }
 
-        $this->gateway->send(JSON::encode(['EOSE', $subscription->id]), $subscription->clientId);
+        $this->gateway->sendText(JSON::encode(['EOSE', $subscription->id]), $subscription->clientId);
 
         $this->subscriptionRepository->register($subscription);
     }

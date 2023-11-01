@@ -9,7 +9,7 @@ use Amp\Http\Server\Response;
 use Amp\Websocket\Server\WebsocketClientHandler;
 use Amp\Websocket\Server\WebsocketGateway;
 use Amp\Websocket\WebsocketClient;
-use Amp\Websocket\WebsocketClientMetadata;
+use Amp\Websocket\WebsocketCloseInfo;
 use Psr\Log\LoggerInterface;
 use YAR\Application\PublishEvent;
 use YAR\Application\Subscribe;
@@ -42,8 +42,8 @@ final class FrontController implements WebsocketClientHandler
 
     public function handleClient(WebsocketClient $client, Request $request, Response $response): void
     {
-        $client->onClose(function (WebsocketClientMetadata $metadata): void {
-            $this->subscriptionRepository->deleteAll($metadata->id);
+        $client->onClose(function (int $id, WebsocketCloseInfo $info): void {
+            $this->subscriptionRepository->deleteAll($id);
         });
 
         $this->gateway->addClient($client);

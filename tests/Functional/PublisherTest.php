@@ -16,7 +16,7 @@ final class PublisherTest extends FunctionalTestCase
     {
         $client = connect(new WebsocketHandshake('ws://127.0.0.1:1337'));
 
-        $client->send(<<<JSON
+        $client->sendText(<<<JSON
 ["EVENT", {
   "id": "62fa167369a603b1181a49ecf2e20e7189833417c3fb49666c5644901da27bcc",
   "pubkey": "84fdf029f065438702b011c2002b489fd00aaea69b18efeae8261c44826a8886",

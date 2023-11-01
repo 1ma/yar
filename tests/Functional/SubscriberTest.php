@@ -30,16 +30,16 @@ final class SubscriberTest extends FunctionalTestCase
 
     public function testSubscribeBeforePublish(): void
     {
-        $this->subscriberClient->send('["REQ", "1234", {"authors": ["84fdf029f065438702b011c2002b489fd00aaea69b18efeae8261c44826a8886"]}]');
+        $this->subscriberClient->sendText('["REQ", "1234", {"authors": ["84fdf029f065438702b011c2002b489fd00aaea69b18efeae8261c44826a8886"]}]');
 
         self::assertSame(
             '["EOSE","1234"]',
             $this->subscriberClient->receive()->buffer()
         );
 
-        $this->subscriberClient->send('["CLOSE","1234"]');
+        $this->subscriberClient->sendText('["CLOSE","1234"]');
 
-        $this->publisherClient->send(<<<JSON
+        $this->publisherClient->sendText(<<<JSON
 ["EVENT", {
   "id": "62fa167369a603b1181a49ecf2e20e7189833417c3fb49666c5644901da27bcc",
   "pubkey": "84fdf029f065438702b011c2002b489fd00aaea69b18efeae8261c44826a8886",
@@ -65,7 +65,7 @@ JSON
 
     public function testPublishBeforeSubscribe(): void
     {
-        $this->publisherClient->send(<<<JSON
+        $this->publisherClient->sendText(<<<JSON
 ["EVENT", {
   "id": "62fa167369a603b1181a49ecf2e20e7189833417c3fb49666c5644901da27bcc",
   "pubkey": "84fdf029f065438702b011c2002b489fd00aaea69b18efeae8261c44826a8886",
@@ -78,7 +78,7 @@ JSON
 JSON
         );
 
-        $this->subscriberClient->send('["REQ", "1234", {"authors": ["84fdf029f065438702b011c2002b489fd00aaea69b18efeae8261c44826a8886"]}]');
+        $this->subscriberClient->sendText('["REQ", "1234", {"authors": ["84fdf029f065438702b011c2002b489fd00aaea69b18efeae8261c44826a8886"]}]');
 
         self::assertSame(
             '["EVENT","1234",{"id":"62fa167369a603b1181a49ecf2e20e7189833417c3fb49666c5644901da27bcc","pubkey":"84fdf029f065438702b011c2002b489fd00aaea69b18efeae8261c44826a8886","created_at":1689033061,"kind":1,"tags":[],"content":"This event was created at https://nostrtool.com/ with a throwaway key.","sig":"a67e8d286605e3d7dfd3e0bd1642f85a25bb0cd70ec2ed941349ac879f617868a3ffa2a9040bb43c024594a79e4878429a990298c51ae4d6d20533589f4a04df"}]',
